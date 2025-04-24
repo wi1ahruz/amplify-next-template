@@ -33,7 +33,12 @@ export default function App() {
   }
 
   function deleteTodo(id: string) {
-    client.models.Todo.delete({ id });
+    // Validate and sanitize the id before using it in the delete operation
+    if (typeof id === "string" && /^[a-zA-Z0-9-]+$/.test(id)) {
+      client.models.Todo.delete({ id });
+    } else {
+      console.error("Invalid todo ID");
+    }
   }
 
   const { user, signOut } = useAuthenticator();
